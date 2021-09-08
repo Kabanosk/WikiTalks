@@ -85,11 +85,11 @@ class Wikipedia:
         text = re.sub(r"\s+", " ", text)
         return text
 
-def initialize():
+def init():
     language = input('What is your preferred language?/Jaki jest twój preferowany język? (en/pl)')
     question = listening_the_question(language)
     sp = changing_question_to_searching_phrase(language, question)
     answering_the_question(language, sp)
 
 
-initialize()
+init()

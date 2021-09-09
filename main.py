@@ -9,7 +9,7 @@ def listening_the_question(language):
     with sr.Microphone() as source:
         if language == 'pl':
             try:
-                print("Zadaj pytanie zaczynające się od \"Co to jest...\" lub powiedz szukaną frazę.")
+                print("Zadaj proste pytanie (\"Co to...\", \"Kim był...\"")
                 audio = recognizer.listen(source)
                 text = recognizer.recognize_google(audio, language='pl-PL')
                 print(text)
@@ -23,7 +23,7 @@ def listening_the_question(language):
                 else : return None
         elif language == 'en':
             try:
-                print("Ask a question which start with \"What is...\" or say a search term.")
+                print("Ask a simple question(\"What is...\", \"Who was...\")")
                 audio = recognizer.listen(source)
                 text = recognizer.recognize_google(audio)
                 return text
@@ -42,16 +42,24 @@ def answering_the_question(language, title):
     engine.say(wiki.desc)
     engine.runAndWait()
 
+def delete_two_first_words(text):
+    num_of_spaces = 0
+    for i in range(len(text)):
+        if text[i] == ' ':
+            num_of_spaces += 1
+        if num_of_spaces == 2:
+            text = text[i:]
+            break
+    return text
+
 def changing_question_to_searching_phrase(language, question):
     if language == 'pl':
-        question = re.sub("Co to jest ", "", question)
-        question = re.sub("co to jest ", "", question)
-        question = re.sub("Co to ", "", question)
-        question = re.sub("co to ", "", question)
+        question = delete_two_first_words(question)
+        question = re.sub("jest", "", question)
         return question
     elif language == 'en':
-        question = re.sub("What is ", "", question)
-        question = re.sub("what is ", "", question)
+        question = delete_two_first_words(question)
+        question = re.sub("the", "", question)
         return question
 
 class Wikipedia:
